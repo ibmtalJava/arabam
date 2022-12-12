@@ -34,11 +34,11 @@ public class BrandManager implements BrandService {
 	public Result<Brand> updateBrand(BrandUpdateDto brandUpdateDto) {
 		Result<Brand> result=new Result<>();
 		Brand brand=new Brand();
-		brand=this.brandDao.findById(brandUpdateDto.getId()).get();
-		if(brand==null) {
+		if(this.brandDao.findById(brandUpdateDto.getId())==null) {
 			result.newError("id","id numarasına ait Marka Bulunamadı");
 		}
 		if(result.isSuccess()==true) {
+			brand=this.brandDao.findById(brandUpdateDto.getId()).get();
 			brand.setName(brandUpdateDto.getName());
 			brand.setLogo(brandUpdateDto.getLogo());
 			this.brandDao.save(brand);
