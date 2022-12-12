@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ibmtal.arabam.business.services.BrandService;
 import ibmtal.arabam.core.result.Result;
+import ibmtal.arabam.dtos.BrandUpdateDto;
 import ibmtal.arabam.entity.Brand;
 
 @RestController
@@ -24,6 +25,12 @@ public class BrandController {
 	@GetMapping
 	public Result<Brand> addBrandApi(@RequestBody Brand brand){
 		return this.brandService.addBrand(brand);
+	}
+	
+	@PostMapping("/updateBrand")
+	@GetMapping
+	public Result<Brand> updateBrand(@RequestBody BrandUpdateDto brandUpdateDto){
+		return this.brandService.updateBrand(brandUpdateDto);
 	}
 	
 

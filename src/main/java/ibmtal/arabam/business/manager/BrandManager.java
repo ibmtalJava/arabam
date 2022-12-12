@@ -32,10 +32,20 @@ public class BrandManager implements BrandService {
 	}
 	@Override
 	public Result<Brand> updateBrand(BrandUpdateDto brandUpdateDto) {
+		Result<Brand> result=new Result<>();
 		Brand brand=new Brand();
-		brand=this.brandDao.getById(brandUpdateDto.getId());
-		
-		return null;
+		brand=this.brandDao.findById(brandUpdateDto.getId()).get();
+		if(brand==null) {
+			result.newError("id","id numarasına ait Marka Bulunamadı");
+		}
+		if(result.isSuccess()==true) {
+			brand.setName(brandUpdateDto.getName());
+			brand.setLogo(brandUpdateDto.getLogo());
+			this.brandDao.save(brand);
+			result.getData().add(brand);
+			
+		}
+		return result;
 	}
 	
 	
