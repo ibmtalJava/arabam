@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ibmtal.arabam.business.services.BrandService;
 import ibmtal.arabam.core.result.Result;
 import ibmtal.arabam.database.BrandDao;
+import ibmtal.arabam.dtos.BrandUpdateDto;
 import ibmtal.arabam.entity.Brand;
 @Service
 public class BrandManager implements BrandService {
@@ -28,6 +29,13 @@ public class BrandManager implements BrandService {
 			result.getData().add(brand);
 		}
 		return result;
+	}
+	@Override
+	public Result<Brand> updateBrand(BrandUpdateDto brandUpdateDto) {
+		Brand brand=new Brand();
+		brand=this.brandDao.getById(brandUpdateDto.getId());
+		
+		return null;
 	}
 	
 	
