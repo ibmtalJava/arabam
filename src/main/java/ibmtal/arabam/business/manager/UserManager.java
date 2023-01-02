@@ -1,6 +1,7 @@
 package ibmtal.arabam.business.manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import ibmtal.arabam.business.services.UserService;
@@ -48,6 +49,25 @@ public class UserManager implements UserService {
 		 }
 		 if(userAddDto.getSurname().length()>50) {
 			 result.newError("Surname", "Soyisim 50 Karakterden Fazla Olamaz.");
+		 }
+		 if(this.userDao.findByUsername(userAddDto.getUsername())!=null) {
+			 result.newError("username","Kullanıcı adı zaten kullanılıyor");
+		 }
+		 if(result.isSuccess()) {
+			 User user=new User();
+			 user.setUsername(userAddDto.getUsername());
+			 user.setPassword(userAddDto.getPassword());
+			 user.setName(userAddDto.getName());
+			 user.setSurname(userAddDto.getSurname());
+			 user.setBirthday(userAddDto.getBirthday());
+			 user.setCountry(userAddDto.getCountry());
+			 user.setPhoto(userAddDto.getPhoto());
+			 user.setGender(userAddDto.getGender());
+			 user.setPhone(userAddDto.getPhone());
+			 user.setTc(userAddDto.getTc());
+			 this.userDao.save(user);
+			 HttpHeaders headers=new HttpHeaders();
+			 headers.add("username", userAddDto.getUsername());
 		 }
          return result;
 	}
