@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ibmtal.arabam.business.services.UserService;
 import ibmtal.arabam.core.result.Result;
+import ibmtal.arabam.dtos.LoginDto;
 import ibmtal.arabam.dtos.UserAddDto;
+import ibmtal.arabam.dtos.UserDto;
 import ibmtal.arabam.entity.User;
 
 @RestController
@@ -25,6 +27,11 @@ public class UserController {
 	@GetMapping
 	public Result<User> addUser(@RequestBody UserAddDto addDto){
 		return this.userService.userAddDto(addDto);
+	}
+	@PostMapping("/login")
+	@GetMapping
+	public Result<UserDto> login(@RequestBody LoginDto loginDto){
+		return this.userService.userLogin(loginDto);
 	}
 	
 }

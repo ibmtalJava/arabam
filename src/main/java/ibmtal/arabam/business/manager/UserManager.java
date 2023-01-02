@@ -1,14 +1,28 @@
 package ibmtal.arabam.business.manager;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+
+import javax.servlet.http.Cookie;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Jedis;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import ibmtal.arabam.business.services.UserService;
 import ibmtal.arabam.core.result.Result;
 import ibmtal.arabam.database.UserDao;
+import ibmtal.arabam.dtos.LoginDto;
 import ibmtal.arabam.dtos.UserAddDto;
+import ibmtal.arabam.dtos.UserDto;
 import ibmtal.arabam.entity.User;
+
 
 @Service
 public class UserManager implements UserService {
@@ -66,10 +80,24 @@ public class UserManager implements UserService {
 			 user.setPhone(userAddDto.getPhone());
 			 user.setTc(userAddDto.getTc());
 			 this.userDao.save(user);
-			 HttpHeaders headers=new HttpHeaders();
-			 headers.add("username", userAddDto.getUsername());
+		
+		
+			
 		 }
          return result;
+	}
+
+	@Override
+	public Result<UserDto> userLogin(LoginDto dto) {
+		Result<UserDto> result=new Result<>();
+		User usernameUser=new User();
+		User passwordUser=new User();
+		usernameUser=this.userDao.findByUsernameAndPassword(dto.getUsername(),dto.getPassword());
+		if(usernameUser==null) {
+			result.newError("username","kullanıcı bulunamadı");
+		}
+		
+		return result;
 	}
 
 }
